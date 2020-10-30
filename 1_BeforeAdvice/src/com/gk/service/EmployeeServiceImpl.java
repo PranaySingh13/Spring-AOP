@@ -17,7 +17,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public void getEmployeeDetails(Employee employee) {
-		System.out.println("Employee Details from displayEmployee(--)");
+		System.out.println("Employee Details from getEmployeeDetails(--)");
 		System.out.println("-----------------------------------------");
 		System.out.println("Employee Id: " + employee.getEmpId());
 		System.out.println("Employee Name: " + employee.getEmpName());
