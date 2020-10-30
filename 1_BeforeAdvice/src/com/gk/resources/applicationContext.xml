@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 	 					 http://www.springframework.org/schema/beans/spring-beans.xsd
+ 	 					 http://www.springframework.org/schema/aop
+ 	 					 http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- Bean Object -->
+	<bean id="empBean" class="com.gk.dto.Employee">
+		<property name="empId" value="1234" />
+		<property name="empName" value="Pranay Singh" />
+		<property name="empSalary" value="10000" />
+		<property name="empEmail" value="pranay@yahoo.com" />
+		<property name="empMobile" value="+91-9988776655" />
+	</bean>
+
+	<!-- Target Object -->
+	<bean id="empService" class="com.gk.service.EmployeeServiceImpl" />
+	
+	<!-- Advisor --><!-- It is Optional to mention -->
+	<bean id="advisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="pointcut"/>
+		<property name="advice" ref="validatorAdvice" />
+	</bean>
+	
+	<!-- Advice -->
+	<bean id="validatorAdvice" class="com.gk.advice.EmployeeValidator"/>
+	
+	<!-- Pointcut (Static) -->
+	<bean id="pointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+		<property name="mappedNames">
+			<array>
+				<value>displayEmployee</value>
+				<value>getEmployeeDetails</value>
+			</array>
+		</property>
+	</bean>
+	
+	<!-- Proxy Object(target+advice) -->
+	<bean id="empProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="empService"/>
+		<property name="interceptorNames">
+			<list>
+				<value>advisor</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
