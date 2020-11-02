@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 	 					 http://www.springframework.org/schema/beans/spring-beans.xsd
+ 	 					 http://www.springframework.org/schema/aop
+ 	 					 http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- Beans Object -->
+	<bean id="accBean" class="com.gk.dto.Account">
+		<property name="accNo" value="abc123" />
+		<property name="accName" value="Pranay Singh" />
+		<property name="accType" value="Salary" />
+		<property name="balance" value="20000"/>
+	</bean>
+	
+	<bean id="chequeBean" class="com.gk.dto.Cheque">
+		<property name="cheque_no" value="xyz123"/>
+		<property name="amount" value="10000"/>
+	</bean>
+
+	<!-- Target Object -->
+	<bean id="transactionService" class="com.gk.service.TransactionServiceImpl" />
+	
+	<!-- Advisor --><!-- It is Optional to mention
+	<bean id="advisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="pointcut"/>
+		<property name="advice" ref="advice" />
+	</bean>
+	-->
+	
+	<!-- Advice -->
+	<bean id="advice" class="com.gk.advice.ChequeClearenceAdvice"/>
+	
+	<!-- Pointcut (Static)
+	<bean id="pointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+		<property name="mappedNames">
+			<array>
+				<value>debit</value>
+			</array>
+		</property>
+	</bean>
+	-->
+	
+	<!-- NOTE:********************
+	It is optional or unnecessary to make a bean for advisor and pointcut
+	if the advice are being applied on all the service methods .
+	****************************** -->
+	
+	<!-- Proxy Object(target+advice) -->
+	<bean id="transactionProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="transactionService"/>
+		<property name="interceptorNames">
+			<list>
+				<value>advice</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
