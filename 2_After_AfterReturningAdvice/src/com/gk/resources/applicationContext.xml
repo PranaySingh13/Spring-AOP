@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 	 					 http://www.springframework.org/schema/beans/spring-beans.xsd
+ 	 					 http://www.springframework.org/schema/aop
+ 	 					 http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- Bean Object -->
+	<bean id="stdBean" class="com.gk.dto.Student">
+		<property name="stdName" value="Pranay Singh" />
+		<property name="stdQualification" value="MTech" />
+		<property name="stdEmail" value="pranay@yahoo.com" />
+		<property name="stdMobile" value="+91-9988776655" />
+	</bean>
+
+	<!-- Target Object -->
+	<bean id="instituteService" class="com.gk.service.InstituteServiceImpl" />
+	
+	<!-- Advisor --><!-- It is Optional to mention
+	<bean id="advisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="pointcut"/>
+		<property name="advice" ref="thankqAdvice" />
+	</bean>
+	-->
+	
+	<!-- Advice -->
+	<bean id="thankqAdvice" class="com.gk.advice.ThankQAdvice"/>
+	
+	<!-- Pointcut (Static)
+	<bean id="pointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+		<property name="mappedNames">
+			<array>
+				<value>enquiry</value>
+				<value>registration</value>
+			</array>
+		</property>
+	</bean>
+	-->
+	
+	<!-- NOTE:********************
+	It is optional or unnecessary to make a bean for advisor and pointcut
+	if the advice are being applied on all the service methods .
+	****************************** -->
+	
+	<!-- Proxy Object(target+advice) -->
+	<bean id="stdProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="instituteService"/>
+		<property name="interceptorNames">
+			<list>
+				<value>thankqAdvice</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
