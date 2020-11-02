@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 	 					 http://www.springframework.org/schema/beans/spring-beans.xsd
+ 	 					 http://www.springframework.org/schema/aop
+ 	 					 http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- Bean Object -->
+	<bean id="movieBean" class="com.gk.dto.Movie">
+		<property name="movie_Name" value="Padmaavat" />
+		<property name="show_Time" value="10:30 P.M." />
+		<property name="price" value="180" />
+	</bean>
+
+	<!-- Target Object -->
+	<bean id="movieService" class="com.gk.service.MovieServiceImpl" />
+	
+	<!-- Advisor --><!-- It is Optional to mention
+	<bean id="advisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="pointcut"/>
+		<property name="advice" ref="thankqAdvice" />
+	</bean>
+	-->
+	
+	<!-- Advice -->
+	<bean id="advice" class="com.gk.advice.MovieReturnAdvice"/>
+	
+	<!-- Pointcut (Static)
+	<bean id="pointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+		<property name="mappedNames">
+			<array>
+				<value>playMovie</value>
+			</array>
+		</property>
+	</bean>
+	-->
+	
+	<!-- NOTE:********************
+	It is optional or unnecessary to make a bean for advisor and pointcut
+	if the advice are being applied on all the service methods .
+	****************************** -->
+	
+	<!-- Proxy Object(target+advice) -->
+	<bean id="movieProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="movieService"/>
+		<property name="interceptorNames">
+			<list>
+				<value>advice</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
