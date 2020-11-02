@@ -20,7 +20,7 @@
 	<!-- Advisor --><!-- It is Optional to mention
 	<bean id="advisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
 		<property name="pointcut" ref="pointcut"/>
-		<property name="advice" ref="thankqAdvice" />
+		<property name="advice" ref="advice" />
 	</bean>
 	-->
 	
