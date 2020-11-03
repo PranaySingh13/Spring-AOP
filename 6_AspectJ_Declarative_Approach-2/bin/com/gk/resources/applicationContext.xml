@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 	 					 http://www.springframework.org/schema/beans/spring-beans.xsd
+ 	 					 http://www.springframework.org/schema/aop
+ 	 					 http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- Bean Config-->
+	<bean id="showBean" class="com.gk.dto.Show">
+		<property name="name" value="Singing" />
+		<property name="time" value="9:00 P.M." />
+		<property name="price" value="1000" />
+	</bean>
+	
+	<!-- Target Bean -->
+	<bean id="showService" class="com.gk.service.ShowServiceImpl" />
+	
+	<!-- Aspect Bean -->
+	<bean id="showAspectBean" class="com.gk.aspects.ShowAspect" />
+	
+	<!-- AspectJ Declarative Approach -->
+	<aop:config>
+		
+		<aop:aspect id="showAspect" ref="showAspectBean">
+			<aop:pointcut expression="execution(public String com.gk.service.ShowService.runShow(com.gk.dto.Show))" id="showPointcut" />
+			
+			<aop:before method="before" pointcut-ref="showPointcut" />
+			
+			<aop:after method="after" pointcut-ref="showPointcut" />
+			
+			<aop:after-returning method="afterReturning" pointcut-ref="showPointcut" />
+			
+			<aop:around method="around" pointcut-ref="showPointcut" />
+			
+			<aop:after-throwing method="afterThrowing" throwing="exception" pointcut-ref="showPointcut" />
+		</aop:aspect>
+	
+	</aop:config>
+</beans>
